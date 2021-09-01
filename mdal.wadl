@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xml" href="./wadl_documentation.xsl"?>
+
+<!--
+    Document   : MDALRest.wadl
+    Author     : Eric Wheeler (eric.wheeler@ngc.com)
+    Created on : November 11, 2008, 11:39 AM
+    Description:
+        Document the ReST interface to the MIDB MDAL.
+-->
+<ns1:application  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:ns1='http://research.sun.com/wadl/2006/10'
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:castor="urn:midb:gmi:castor"
+   xmlns:support="urn:midb:gmi:support"
+   xsi:schemaLocation=
+       'http://research.sun.com/wadl/2006/10 wadl20061109.xsd
+        urn:midb:gmi:castor mdal/Castor.xsd
+        urn:midb:gmi:support mdal/Support.xsd'>
+    <ns1:doc title="MDAL ReST Service Implementation"/>
+    <ns1:grammars>
+        <ns1:include href="mdal/Castor.xsd"/>
+        <ns1:include href="mdal/Support.xsd"/>
+    </ns1:grammars>
+    <ns1:resources base="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/">
+        <ns1:resource path="currentServer">
+            <ns1:method name="GET">
+                <ns1:doc title="MDAL Query Current Server method">
+                    This method allows the client to query for the current
+                    server ID.
+
+                    <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/currentServer">
+                          https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/currentServer
+                    </a>
+                </ns1:doc>
+                <ns1:response>
+                    <ns1:representation mediaType="plain/text">
+                        <ns1:doc>
+                            The server will return a string with the current
+                            server ID.
+                        </ns1:doc>
+                    </ns1:representation>
+                    <ns1:fault status="401" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 401 error if the
+                            user failed to provide credentials using HTTP
+                            BASIC authentication headers, or the credentials
+                            were not valid.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="400" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 400 error if the
+                            an error occurred in the DAL performing the
+                            requested action.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="500" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 500 error if the
+                            ReST service wrapper could not find an
+                            implementation matching the specified URL and
+                            Content-Type combination.
+                        </ns1:doc>
+                    </ns1:fault>
+                </ns1:response>
+            </ns1:method>
+        </ns1:resource> <!-- End /currentServer -->
+        <ns1:resource path="validValues">
+            <ns1:method name="GET">
+                <ns1:doc title="MDAL Query All Valid Values method">
+                    This method allows the client to query for all valid values
+                    for all constrained fields in the GMI DB.
+
+                    <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/validValues">
+                          https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/validValues
+                    </a>
+                </ns1:doc>
+                <ns1:response>
+                    <ns1:representation mediaType="*/xml"
+                        element="castor:ValidValuesResults"/>
+                    <ns1:fault status="401" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 401 error if the
+                            user failed to provide credentials using HTTP
+                            BASIC authentication headers, or the credentials
+                            were not valid.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="400" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 400 error if the
+                            an error occurred in the DAL performing the
+                            requested action.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="500" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 500 error if the
+                            ReST service wrapper could not find an
+                            implementation matching the specified URL and
+                            Content-Type combination.
+                        </ns1:doc>
+                    </ns1:fault>
+                </ns1:response>
+            </ns1:method>
+            <ns1:resource path="{field}">
+                <ns1:param name="field" style="template" required="true"/>
+                <ns1:method name="GET">
+                    <ns1:doc title="MDAL Query Specific Valid Values method">
+                        This method allows the client to query for all
+                        valid values for the specified constrained fields
+                        in the GMI DB.
+
+                        <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/validValues/EVAL">
+                              https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/validValues/EVAL
+                        </a>
+                    </ns1:doc>
+                    <ns1:response>
+                        <ns1:representation mediaType="*/xml"
+                            element="castor:ValidValuesResults"/>
+                        <ns1:fault status="401" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 401 error if the
+                                user failed to provide credentials using HTTP
+                                BASIC authentication headers, or the credentials
+                                were not valid.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="404" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 404 error if the
+                                specified field was not found.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="400" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 400 error if the
+                                an error occurred in the DAL performing the
+                                requested action.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="500" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 500 error if the
+                                ReST service wrapper could not find an
+                                implementation matching the specified URL and
+                                Content-Type combination.
+                            </ns1:doc>
+                        </ns1:fault>
+                    </ns1:response>
+                </ns1:method>
+            </ns1:resource> <!-- End /validValues/{field} -->
+        </ns1:resource> <!-- End /validValues -->
+        <ns1:resource path="fieldHelp">
+            <ns1:method name="GET">
+                <ns1:doc title="MDAL Query All Field Help method">
+                    This method allows the client to query for the description
+                    of all fields in the GMI DB.
+
+                    <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/fieldHelp">
+                          https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/fieldHelp
+                    </a>
+                </ns1:doc>
+                <ns1:response>
+                    <ns1:representation mediaType="*/xml"
+                        element="castor:FieldHelpResults"/>
+                    <ns1:fault status="401" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 401 error if the
+                            user failed to provide credentials using HTTP
+                            BASIC authentication headers, or the credentials
+                            were not valid.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="400" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 400 error if the
+                            an error occurred in the DAL performing the
+                            requested action.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="500" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 500 error if the
+                            ReST service wrapper could not find an
+                            implementation matching the specified URL and
+                            Content-Type combination.
+                        </ns1:doc>
+                    </ns1:fault>
+                </ns1:response>
+            </ns1:method>
+            <ns1:resource path="{field}">
+                <ns1:param name="field" style="template" required="true"/>
+                <ns1:method name="GET">
+                    <ns1:doc title="MDAL Query Specific Field Help method">
+                        This method allows the client to query for the
+                        description of a specific field in the GMI DB.
+
+                        <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/fieldHelp/EVAL">
+                              https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/fieldHelp/EVAL
+                        </a>
+                    </ns1:doc>
+                    <ns1:response>
+                        <ns1:representation mediaType="*/xml"
+                            element="castor:FieldHelpResults"/>
+                        <ns1:fault status="401" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 401 error if the
+                                user failed to provide credentials using HTTP
+                                BASIC authentication headers, or the credentials
+                                were not valid.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="404" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 404 error if the
+                                specified field was not found.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="400" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 400 error if the
+                                an error occurred in the DAL performing the
+                                requested action.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="500" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 500 error if the
+                                ReST service wrapper could not find an
+                                implementation matching the specified URL and
+                                Content-Type combination.
+                            </ns1:doc>
+                        </ns1:fault>
+                    </ns1:response>
+                </ns1:method>
+            </ns1:resource> <!-- End /fieldHelp/{field} -->
+        </ns1:resource> <!-- End /fieldHelp -->
+        <ns1:resource path="userPerms/{userId}">
+            <ns1:param name="userId" style="template" type="xsd:string"
+                required="true"/>
+            <ns1:method name="GET">
+                <ns1:doc title="MDAL Query User Privileges method">
+                    This method allows the client to query for the privileges
+                    granted to a specific user in the GMI DB.
+
+                    <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/userPerms/admin">
+                          https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/userPerms/admin
+                    </a>
+                </ns1:doc>
+                <ns1:response>
+                    <ns1:representation mediaType="*/xml"
+                        element="support:UserPermissions"/>
+                </ns1:response>
+            </ns1:method>
+        </ns1:resource> <!-- End /userPerms/{userId} -->
+        <ns1:resource path="userPerms">
+        	<ns1:method name="GET">
+        		<ns1:doc title="MDAL Query Current user Privileges method">
+        			This method allows the client to query for the privilieges
+        			granted to the current user in the GMI DB.
+
+        			<p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/userPerms">
+        				  https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/userPerms
+        			</a>
+        		</ns1:doc>
+        		<ns1:response>
+                    <ns1:representation mediaType="*/xml"
+                        element="support:UserPermissions"/>
+                </ns1:response>
+             </ns1:method>
+        </ns1:resource> <!-- End /userPerms -->
+        <ns1:resource path="secCombo">
+            <ns1:method name="GET">
+                <ns1:doc title="MDAL Query Security Combination method">
+                    This method allows the client to query for all security
+                    combinations matching the values specified.
+
+                    <p/>For example, if a client wished to retrieve all valid
+                    combinations of Secret Collateral markings, the client
+                    should perform an HTTP GET to URL:
+
+                    <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/secCombo?ClassLvl=S&amp;DomainLvl=CO">
+                    https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/secCombo?ClassLvl=S&amp;DomainLvl=CO
+                    </a>
+                </ns1:doc>
+                <ns1:request>
+                    <ns1:param name="ClassLvl" style="query" type="xsd:string"/>
+                    <ns1:param name="ControlMark" style="query" type="xsd:string"/>
+                    <ns1:param name="DomainLvl" style="query" type="xsd:string"/>
+                    <ns1:param name="ReleaseMark" style="query" type="xsd:string"/>
+                    <!--
+                    Owner producer is not presently supported in the GMI DB.
+                    <ns1:param name="OwnerProducer" style="query" type="xsd:string"/>
+                    -->
+                    <ns1:param name="Codeword" style="query" type="xsd:string"/>
+                </ns1:request>
+                <ns1:response>
+                    <ns1:representation mediaType="*/xml"
+                        element="castor:SecComboResults"/>
+                    <ns1:fault status="401" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 401 error if the
+                            user failed to provide credentials using HTTP
+                            BASIC authentication headers, or the credentials
+                            were not valid.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="400" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 400 error if the
+                            an error occurred in the DAL performing the
+                            requested action.
+                        </ns1:doc>
+                    </ns1:fault>
+                    <ns1:fault status="500" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 500 error if the
+                            ReST service wrapper could not find an
+                            implementation matching the specified URL and
+                            Content-Type combination.
+                        </ns1:doc>
+                    </ns1:fault>
+                </ns1:response>
+            </ns1:method>
+            <ns1:resource path="aggregate">
+                <ns1:method name="GET">
+                    <ns1:doc title="MDAL Query Security Combination Aggregation method">
+                        This method allows the client to determine the security
+                        combination resulting from the aggregation of multiple
+                        combinations.
+
+                        <p/>For example, if a client wished to the security
+                        combination that includes all caveats/dissemination
+                        controls for SI and TK markings, the client
+                        should perform an HTTP GET to URL:
+
+                        <p/><a href="https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/secCombo/aggregate?ClassLvl=T&amp;DomainLvl=SI&amp;ControlMark=IM&amp;Codeword=1&amp;ClassLvl=S&amp;DomainLvl=TK&amp;ControlMark=NF&amp;Codeword=2">
+                        https://ec2-3-32-233-211.us-gov-west-1.compute.amazonaws.com:443/i3/midb/mdal/v1/rest/secCombo/aggregate?ClassLvl=T&amp;DomainLvl=SI&amp;ControlMark=IM&amp;Codeword=1&amp;ClassLvl=S&amp;DomainLvl=TK&amp;ControlMark=NF&amp;Codeword=2
+                        </a>
+                    </ns1:doc>
+                    <ns1:request>
+                        <ns1:param name="ClassLvl" style="query"
+                            type="xsd:string" repeating="true"/>
+                        <ns1:param name="ControlMark" style="query"
+                            type="xsd:string" repeating="true"/>
+                        <ns1:param name="DomainLvl" style="query"
+                            type="xsd:string" repeating="true"/>
+                        <ns1:param name="ReleaseMark" style="query"
+                            type="xsd:string" repeating="true"/>
+                        <!--
+                        Owner producer is not presently supported in the GMI DB.
+                        <ns1:param name="OwnerProducer" style="query"
+                            type="xsd:string" repeating="true"/>
+                        -->
+                        <ns1:param name="Codeword" style="query"
+                            type="xsd:string" repeating="true"/>
+                    </ns1:request>
+                    <ns1:response>
+                        <ns1:representation mediaType="*/xml"
+                            element="castor:SecComboResults"/>
+                        <ns1:fault status="401" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 401 error if the
+                                user failed to provide credentials using HTTP
+                                BASIC authentication headers, or the credentials
+                                were not valid.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="400" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 400 error if the
+                                an error occurred in the DAL performing the
+                                requested action.
+                            </ns1:doc>
+                        </ns1:fault>
+                        <ns1:fault status="500" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 500 error if the
+                                ReST service wrapper could not find an
+                                implementation matching the specified URL and
+                                Content-Type combination.
+                            </ns1:doc>
+                        </ns1:fault>
+                    </ns1:response>
+                </ns1:method>
+            </ns1:resource> <!-- End /secCombo/aggregate -->
+        </ns1:resource> <!-- End /secCombo -->
+
+        <ns1:resource path="version">
+            <ns1:method name="GET">
+                <ns1:doc title="MIDB Version">
+                    This method allows the client to get the overall version of
+                    the MIDB instance to which they are connecting.
+                </ns1:doc>
+                <ns1:response>
+                    <ns1:representation mediaType="*/xml"
+                        element="support:VersionData"/>
+                    <ns1:fault status="400" mediaType="*/xml"
+                        element="castor:GeneralFailureException">
+                        <ns1:doc>
+                            The application will return a 400 error if the
+                            an error occurred in the DAL performing the
+                            requested action.
+                        </ns1:doc>
+                    </ns1:fault>
+                </ns1:response>
+            </ns1:method>
+            <ns1:resource path="components">
+                <ns1:method name="GET">
+                    <ns1:doc title="MIDB Component Versions">
+                        This method allows the client to get the versions of
+                        the individual components of MIDB on the server to which
+                        they are connected, similar to the "About" page
+                        available through NPW.
+                    </ns1:doc>
+                    <ns1:response>
+                        <ns1:representation mediaType="*/xml"
+                            element="support:VersionDataList"/>
+                        <ns1:fault status="400" mediaType="*/xml"
+                            element="castor:GeneralFailureException">
+                            <ns1:doc>
+                                The application will return a 400 error if the
+                                an error occurred in the DAL performing the
+                                requested action.
+                            </ns1:doc>
+                        </ns1:fault>
+                    </ns1:response>
+                </ns1:method>
+            </ns1:resource> <!-- End /version/components -->
+        </ns1:resource> <!-- End /version -->
+    </ns1:resources>
+  </ns1:application>
